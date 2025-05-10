@@ -1,0 +1,476 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
+import "./ExploreArt.css";
+
+const artworks = [
+  {
+    id: 1,
+    title: "Starry Night",
+    price: "100 million",
+    artist: "Vincent van Gogh",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-Starry_Night-Google_Art_Project.jpg/640px-Van_Gogh-Starry_Night-_Google_Art_Project.jpg"
+  },
+  {
+    id: 2,
+    title: "The Persistence of Memory",
+    price: "150 million",
+    artist: "Salvador Dalí",
+    image: "https://cdn.britannica.com/10/182610-050-77811599/The-Persistence-of-Memory-canvas-collection-Salvador-1931.jpg"
+  },
+  {
+    id: 3,
+    title: "The Mona Lisa",
+    price: "Priceless(Insured for $870 million, displayed in the Louvre, Paris)", // Insured value
+    artist: "Leonardo da Vinci",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/270px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg"
+  },
+  {
+    id: 4,
+    title: "The Scream",
+    price: "119.9 million",
+    artist: "Edvard Munch",
+    image: "https://cdn.britannica.com/32/2832-050-9DD1D041/The-Scream-casein-cardboard-Edvard-Munch-National-1893.jpg"
+  },
+  {
+    id: 5,
+    title: "Girl with a Pearl Earring",
+    price: "100 million",
+    artist: "Johannes Vermeer",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1200px-1665_Girl_with_a_Pearl_Earring.jpg"
+  },
+  {
+  id: 6,
+  title: "Impression, Sunrise",
+  price: "Priceless",
+  artist: "Claude Monet",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPU7P2k5XAGVwuvtLowiKbyKO2FjH1K_fPA&s"
+},
+  {
+    id: 7,
+    title: "The Kiss",
+    price: 135000000,
+    artist: "Gustav Klimt",
+    image: "https://www.restinpieces.co.uk/cdn/shop/products/1000-piece-Gustav-Klimt-The-Kiss-Jigsaw-Puzzle_1200x1200.jpg?v=1675206222"
+  },
+  {
+    id: 8,
+    title: "Café Terrace at Night",
+    price: 90000000,
+    artist: "Vincent van Gogh",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Vincent_Willem_van_Gogh_-Cafe_Terrace_at_Night%28Yorck%29.jpg/640px-Vincent_Willem_van_Gogh_-Cafe_Terrace_at_Night%28Yorck%29.jpg"
+  },
+  {
+    id: 9,
+    title: "Water Lilies",
+    price: 54000000,
+    artist: "Claude Monet",
+    image: "https://m.media-amazon.com/images/I/71KhW7VgXNL.AC_UF1000,1000_QL80.jpg"
+  },
+  {
+    id: 10,
+    title: "Whistler's Mother",
+    price: 40000000,
+    artist: "James McNeill Whistler",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Whistlers_Mother_high_res.jpg/1200px-Whistlers_Mother_high_res.jpg"
+  },
+  {
+    id: 11,
+    title: "Las Meninas",
+    price: "Priceless",
+    artist: "Diego Velázquez",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/640px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg"
+  },
+  {
+    id: 12,
+    title: "Guernica",
+    price: "Priceless",
+    artist: "Pablo Picasso",
+    image: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0b73c868681015.5b655abc1fb34.jpg"
+  },
+  {
+    id: 13,
+    title: "American Gothic",
+    price: 60000000,
+    artist: "Grant Wood",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Grant_Wood_-American_Gothic-_Google_Art_Project.jpg"
+  },
+  {
+    id: 14,
+    title: "The Night Watch",
+    price: "Priceless",
+    artist: "Rembrandt van Rijn",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-HD.jpg/1200px-The_Night_Watch-_HD.jpg"
+  },
+  {
+    id: 15,
+    title: "Bal du moulin de la Galette",
+    price: 78000000,
+    artist: "Pierre-Auguste Renoir",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/40/Auguste_Renoir_-Dance_at_Le_Moulin_de_la_Galette-Mus%C3%A9e_d%27Orsay_RF_2739%28derivative_work_-_AutoContrast_edit_in_LCH_space%29.jpg"
+  },
+  {
+    id: 16,
+    title: "Napoleon Crossing the Alps",
+    price: "Priceless",
+    artist: "Jacques-Louis David",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/David_-Napoleon_crossing_the_Alps-Malmaison2.jpg/1200px-David-Napoleon_crossing_the_Alps-_Malmaison2.jpg"
+  },
+  {
+    id: 17,
+    title: "A Sunday Afternoon on the Island of La Grande Jatte",
+    price: 100000000,
+    artist: "Georges Seurat",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/400px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg"
+  },
+  {
+    id: 18,
+    title: "The Arnolfini Portrait",
+    price: 92000000,
+    artist: "Jan van Eyck",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/The_Arnolfini_portrait_%281434%29.jpg/1200px-The_Arnolfini_portrait_%281434%29.jpg"
+  },
+  {
+    id: 19,
+    title: "Christina's World",
+    price: 5000000,
+    artist: "Andrew Wyeth",
+    image: "https://www.tallengestore.com/cdn/shop/products/andrew_wyeth_-christinas_world_32c9c3e2-d358-40b0-b715-76f8e0996fbc.jpg?v=1495272827"
+  },
+  {
+    id: 20,
+    title: "The Sleeping Gypsy",
+    price: 8000000,
+    artist: "Henri Rousseau",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/La_Boh%C3%A9mienne_endormie.jpg/1200px-La_Boh%C3%A9mienne_endormie.jpg"
+  },
+  {
+    id: 21,
+    title: "The Great Wave Of Kanagawa",
+    price: "2.8 million",
+    artist: "Hokusai",
+    image: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Tsunami_by_hokusai_19th_century.jpg"
+  },
+  {
+    id: 22,
+    title: "The Card Players",
+    price: 250000000,
+    artist: "Paul Cézanne",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_EcgOQqicKo0GKp51dnn7RJJMktrKFG3kbA&s"
+  },
+  {
+    id: 23,
+    title: "The Hay Wain",
+    price: 13000000,
+    artist: "John Constable",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtTfPdPPXpBH1wKUyIOUwzG2SkeY-PQBwr9w&s"
+  },
+  {
+    id: 24,
+    title: "The Dance",
+    price: 78000000,
+    artist: "Pierre-Auguste Renoir",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcY2yofMRTvnDuKZwr-AWckJzASe0o70xNDw&s"
+  },
+  {
+    id: 25,
+    title: "The Swing",
+    price: 80-100,
+    artist: "Eugène Delacroix",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWugiNO93OnYKP3nX5Z4Dq33Yvn-_s2fgR_w&s"
+  },
+  {
+    id: 26,
+    title: "The Last Supper",
+    price: "Priceless",
+    artist: "Leonardo da Vinci",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Leonardo_da_Vinci_-The_Last_Supper_high_res.jpg/2560px-Leonardo_da_Vinci-_The_Last_Supper_high_res.jpg"
+  },
+  {
+    id: 27,
+    title: "The Garden of Earthly Delights",
+    price: "Not for sale (considered a national treasure, housed in Victoria Memorial Hall, Kolkata)",
+    artist: "Abanindranath Tagore",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Bharat_Mata_by_Abanindranath_Tagore.jpg/960px-Bharat_Mata_by_Abanindranath_Tagore.jpg"
+  }
+];
+
+const ExploreArt = () => {
+  const [sortOption, setSortOption] = useState("");
+
+  const sortedArtworks = [...artworks].sort((a, b) => {
+    if (sortOption === "Price: Low to High") return a.price - b.price;
+    if (sortOption === "Price: High to Low") return b.price - a.price;
+    return 0;
+  });
+
+  // ✅ Add to Cart Handler
+  const handleAddToCart = (art) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const isAlreadyInCart = currentCart.some(item => item.id === art.id);
+
+    if (!isAlreadyInCart) {
+      const updatedCart = [...currentCart, art];
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      alert(Added ${art.title} to your cart!);
+    } else {
+      alert(${art.title} is already in your cart!);
+    }
+  };
+
+  return (
+    <div>
+      <header className="header" style={{ background: "lightblue", color: "black", zIndex: 1000 }}>
+        <h1 className="header-title">Explore Art</h1>
+        <p className="header-subtitle">Browse amazing artworks from various artists around the world.</p>
+      </header>
+
+      <div className="explore-art">
+        <div className="filters">
+          <select onChange={(e) => setSortOption(e.target.value)}>
+            <option value="">Sort By</option>
+            <option value="Price: Low to High">Price: Low to High</option>
+            <option value="Price: High to Low">Price: High to Low</option>
+          </select>
+        </div>
+
+        <Link to="/VirtualSpace">
+          <button className="virtual-space-btn">Virtual Space</button>
+        </Link>
+
+        <div className="art-grid">
+          {sortedArtworks.map((art) => (
+            <div className="art-item" key={art.id}>
+              <img src={art.image} alt={art.title} className="art-image" />
+              <h3>{art.title}</h3>
+              <p>Price: ${art.price.toLocaleString()}</p>
+              <p>Artist: {art.artist}</p>
+              <button onClick={() => handleAddToCart(art)}>Add to Cart</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExploreArt;
+
+(CSS)
+.header {
+  text-align: center;
+  background: rgba(108, 153, 237, 0.9); 
+  color: white;
+  padding: 20px 0; 
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4cqb;
+}
+
+.header-container {
+  margin-bottom: 60px; 
+}
+
+.header-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.header-subtitle {
+    font-size: 18px;
+    margin: 5px 0 0;
+}
+
+body {
+    padding-top: 100px;
+}
+
+.explore-art {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+  .art-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  
+  .art-item {
+    background: rgba(0, 0, 0, 0.7); 
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 250px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .art-item img {
+    width: 100%; 
+    height: 300px; 
+    object-fit: cover; 
+    border-radius: 10px;
+  }
+  
+  
+
+.filters select {
+    padding: 8px;
+    font-size: 16px;
+    background: white; 
+    color: black;
+    border-radius: 5px;
+    border: none;
+}
+  
+.explore-art {
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: url("../assets/bg-pic.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 2300px; 
+  margin-bottom: 40px; 
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+.art-container {
+  margin-top: 50px; 
+}
+
+.filters select {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.art-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.art-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.art-image {
+    width: 200%;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.explore-art {
+    width: 100vw; 
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.art-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%; 
+    padding: 20px;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.header {
+    position: relative;
+    z-index: 10;
+  }
+
+  #root {
+    background: #1e1e1e; 
+    min-height: 100vh;
+  }
+
+  body {
+    padding-top: 150px; 
+}
+
+.explore-art {
+  background-image: url('https://w0.peakpx.com/wallpaper/430/818/HD-wallpaper-good-night-anime-anime-sky-clouds-cloudy-dark-dark-sky-moonlight-night-sky-sky.jpg'); /* Replace with your background image */
+  background-size: cover;
+  background-attachment: fixed; 
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+  overflow-x: hidden;
+}
+
+.explore-art-container {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8); 
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.art-grid {
+  scroll-behavior: smooth;
+}
+
+.virtual-space-btn {
+  background-color: #ff4f4f; 
+  color: white; 
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 24px; 
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.virtual-space-btn:hover {
+  background-color: #e63946; 
+  transform: scale(1.07); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+.virtual-space-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
